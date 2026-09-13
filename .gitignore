@@ -1,0 +1,7 @@
+# Compiled C/C++ files
+*.out
+*.o
+a.out
+
+# macOS files
+.DS_Store
