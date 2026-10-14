@@ -1,0 +1,95 @@
+
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+
+    Node(int value) {
+        data = value;
+        next = nullptr;
+    }
+};
+
+Node* createList(int n) {
+    Node* head = nullptr;
+    Node* tail = nullptr;
+
+    for (int i = 0; i < n; i++) {
+        int value;
+        cin >> value;
+
+        Node* newNode = new Node(value);
+
+        if (head == nullptr) {
+            head = tail = newNode;
+        } else {
+            tail->next = newNode;
+            tail = newNode;
+        }
+    }
+
+    return head;
+}
+
+Node* mergeLists(Node* list1, Node* list2) {
+    Node dummy(0);
+    Node* tail = &dummy;
+
+    while (list1 != nullptr && list2 != nullptr) {
+        if (list1->data <= list2->data) {
+            tail->next = list1;
+            list1 = list1->next;
+        } else {
+            tail->next = list2;
+            list2 = list2->next;
+        }
+
+        tail = tail->next;
+    }
+
+    if (list1 != nullptr) {
+        tail->next = list1;
+    } else {
+        tail->next = list2;
+    }
+
+    return dummy.next;
+}
+
+void printList(Node* head) {
+    while (head != nullptr) {
+        cout << head->data;
+        if (head->next != nullptr) {
+            cout << " ";
+        }
+        head = head->next;
+    }
+    cout << endl;
+}
+
+void deleteList(Node* head) {
+    while (head != nullptr) {
+        Node* temp = head;
+        head = head->next;
+        delete temp;
+    }
+}
+
+int main() {
+    int n, m;
+    cin >> n;
+
+    Node* list1 = createList(n);
+
+    cin >> m;
+    Node* list2 = createList(m);
+
+    Node* merged = mergeLists(list1, list2);
+
+    printList(merged);
+    deleteList(merged);
+
+    return 0;
+}
